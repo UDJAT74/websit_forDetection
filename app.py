@@ -7,24 +7,8 @@ import threading
 from send_emails import send_emails
 from playsound import playsound
 
-# firebase data
-import pyrebase
-firebaseConfig = {
-'apiKey': "AIzaSyB8WFVoksUXJwHSqTFPvDPGeuqyZ4qx86g",
-'authDomain': "finding-47a82.firebaseapp.com",
-'databaseURL': "https://finding-47a82-default-rtdb.firebaseio.com",
-'projectId': "finding-47a82",
-'storageBucket': "finding-47a82.appspot.com",
-'messagingSenderId': "375040166586",
-'appId': "1:375040166586:web:706dfccfae6fa2b7661083",
-'measurementId': "G-MG2G02JSPJ"
-}
-firebase = pyrebase.initialize_app(firebaseConfig)
-storage = firebase.storage()
-database = firebase.database()
 
-
-model = YOLO("yolov8x.pt")
+model = YOLO("yolov8n.pt")
 def detect(frame1):
     global frame
     result = model.predict(frame)
@@ -50,7 +34,7 @@ def detect(frame1):
 
 camera = cv.VideoCapture(0)
 app = Flask(__name__)
-def generate_frames():
+def generate_frameswithdetection():
     count = 0
     while True:
         count+=1
@@ -72,8 +56,8 @@ def generate_frames():
                     # x, y, w, h= int(b[0]),int(b[1]),int(b[2]),int(b[3])
                     if int(c)==43:
                         cv.imwrite("screenShot.jpg", frame)
-                        thread = threading.Thread(target=playsound, args=("alarm3.wav",))
-                        thread.start()
+                        # thread = threading.Thread(target=playsound, args=("alarm3.wav",))
+                        # thread.start()
                         # thread2 =threading.Thread(target=send_emails())
                         # thread2.start()
 
@@ -82,13 +66,6 @@ def generate_frames():
             frame = buffer.tobytes()
             yield (b'--frame\r\n'
                 b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-
-
-# def uploadphoto(imgpath):
-    count = 1
-    if count >= 1:
-        count += 1
-#       storage.child("tablename").child("detection"+str(count).put(imgpath)
 
 
 def GenerateFrame():
@@ -115,18 +92,15 @@ def checklog():
 @app.route("/home")
 def homepage():
     return render_template('home.html')
+
 @app.route('/home' , methods=['POST'])
 def close():
     camera.release()
     return redirect('/')
 
-@app.route("/detections")
-def detections():
-    return render_template('detections.html')
-
 @app.route('/video')
 def video():
-    return Response(GenerateFrame(),mimetype='multipart/x-mixed-replace; boundary=frame')
+    return Response(generate_frameswithdetection(),mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
 if __name__=="__main__":
