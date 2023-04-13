@@ -1,0 +1,26 @@
+{% extends 'base.html'%}
+{% block body %}
+<!-- firebase fire stor db -->
+<div class="header">
+    <div class="container row justify-content-center align-items-center">
+        <div class="col col-lg-4 ">
+            <img src="{{ url_for('static',filename='img/udjat.png') }}" class="img">
+        </div>
+        <h1 class=" col col-lg-1  text-center">UDJAT</h1>
+    </div>
+</div>
+<div class="container2 ">
+    <!-- <div class="forminfo"> -->
+    <div class=" ">
+        <h3 class="mb-3 text-center">log in</h3>
+        <form action="" method="post" class="">
+            <div class="">
+                <input type="text" placeholder="username" class="form-control mb-2 input">
+                <input type="password" placeholder="password" class="form-control mt-2 mb-2 input">
+                <button type="submit" class="btn input">log in</button>
+            </div>
+        </form>
+    </div>
+    <!-- </div> -->
+</div>
+{% endblock %}

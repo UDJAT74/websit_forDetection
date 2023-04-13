@@ -1,0 +1,27 @@
+{% extends 'base.html'%}
+{% block body %}
+<div class="header">
+    <div class="container row justify-content-center align-items-center">
+        <div class="col col-lg-4 ">
+            <img src="{{ url_for('static',filename='img/udjat.png') }}" class="img">
+        </div>
+        <h1 class=" col col-lg-1  text-center">UDJAT</h1>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <img src="{{ url_for('video') }}" width="300px" height="300px" class="col-6 ">
+        <img src="{{ url_for('video') }}" width="300px" height="300px" class="col-6 ">
+    </div>
+    <div class="row mt-2">
+        <img src="{{ url_for('video') }}" width="300px" height="300px" class="col-6 ">
+        <img src="{{ url_for('video') }}" width="300px" height="300px" class="col-6 ">
+    </div>
+</div>
+<form action="" method="post">
+    <button type="submit" class="btn input mt-2 ms-2">log out</button>
+</form>
+    <a href="{{ url_for('detections')}}" class="btn btn-primary btn-block" >detections</a>
+<script src="static/js/main.js"></script>
+{% endblock %}
